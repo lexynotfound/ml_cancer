@@ -49,7 +49,8 @@ class ResultActivity : AppCompatActivity() {
                             val topClassification = classifications[0]
                             val confidence = (topClassification.score * 100).toInt()
                             val label = topClassification.label
-                            binding.resultText.text = getString(R.string.prediction_text, label, confidence)
+                            binding.resultText.text =
+                                getString(R.string.prediction_text, label, confidence)
                         }
                     }
                 }

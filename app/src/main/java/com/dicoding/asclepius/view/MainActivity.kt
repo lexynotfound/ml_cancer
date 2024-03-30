@@ -66,13 +66,15 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.READ_MEDIA_VIDEO,
                 Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED,
             )
+
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> arrayOf(
                 Manifest.permission.READ_MEDIA_IMAGES,
                 Manifest.permission.READ_MEDIA_VIDEO,
             )
+
             else -> arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
-        return permissionsToCheck.all { checkSelfPermission(it) == android.content.pm.PackageManager.PERMISSION_GRANTED}
+        return permissionsToCheck.all { checkSelfPermission(it) == android.content.pm.PackageManager.PERMISSION_GRANTED }
     }
 
     private fun requestPermissions() {
@@ -82,10 +84,12 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.READ_MEDIA_VIDEO,
                 Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED
             )
+
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> arrayOf(
                 Manifest.permission.READ_MEDIA_IMAGES,
                 Manifest.permission.READ_MEDIA_VIDEO
             )
+
             else -> arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
 

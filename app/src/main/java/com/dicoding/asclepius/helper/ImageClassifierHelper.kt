@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.SystemClock
 import android.view.Surface
-import androidx.camera.core.ImageProxy
 import com.dicoding.asclepius.R
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.common.ops.CastOp
@@ -32,18 +31,15 @@ class ImageClassifierHelper(
     }
 
     private fun setupImageClassifier() {
-        val optionsBuilder = ImageClassifier.ImageClassifierOptions.builder()
-            .setScoreThreshold(threshold)
-            .setMaxResults(maxResults)
-        val baseOptionsBuilder = BaseOptions.builder()
-            .setNumThreads(4)
+        val optionsBuilder =
+            ImageClassifier.ImageClassifierOptions.builder().setScoreThreshold(threshold)
+                .setMaxResults(maxResults)
+        val baseOptionsBuilder = BaseOptions.builder().setNumThreads(4)
         optionsBuilder.setBaseOptions(baseOptionsBuilder.build())
 
         try {
             imageClassifier = ImageClassifier.createFromFileAndOptions(
-                context,
-                modelName,
-                optionsBuilder.build()
+                context, modelName, optionsBuilder.build()
             )
         } catch (e: IllegalStateException) {
             classifierListener?.onError(context.getString(R.string.image_classifier_failed))
@@ -55,17 +51,15 @@ class ImageClassifierHelper(
             setupImageClassifier()
         }
 
-        val imageProcessor = ImageProcessor.Builder()
-            .add(ResizeOp(224, 224, ResizeOp.ResizeMethod.NEAREST_NEIGHBOR))
-            .add(CastOp(DataType.UINT8))
-            .build()
+        val imageProcessor =
+            ImageProcessor.Builder().add(ResizeOp(224, 224, ResizeOp.ResizeMethod.NEAREST_NEIGHBOR))
+                .add(CastOp(DataType.UINT8)).build()
 
         val bitmap = toBitmap(imageUri)
         val tensorImage = imageProcessor.process(TensorImage.fromBitmap(bitmap))
 
-        val imageProcessingOptions = ImageProcessingOptions.builder()
-            .setOrientation(getOrientationFromRotation(0))
-            .build()
+        val imageProcessingOptions =
+            ImageProcessingOptions.builder().setOrientation(getOrientationFromRotation(0)).build()
 
         var inferenceTime = SystemClock.uptimeMillis()
         val results = imageClassifier?.classify(tensorImage, imageProcessingOptions)
